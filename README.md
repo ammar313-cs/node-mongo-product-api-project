@@ -84,23 +84,33 @@ Holds environment variables, such as database URIs and JWT secrets. (Ensure this
    cd node-mongo-product-api-project
    
 2. **Install dependencies:**
+    ```bash
+
     npm install
 
 3. **Example of Hoe to setup .env file:**
+    ```bash
+
     MONGO_URI=mongodb://localhost:27017/productdb
     JWT_SECRET=your_jwt_secret
     PORT=5000
 
 4. **Running the Application Using Node.js:**
+    ```bash
+
     npm start
     npm run dev
 
 5. **Using Docker(makefile):**
+   ```bash
+
    make build
    make up
    make logs
    make down
 
 6. **Running Tests:**
+    ```bash
+
     npm test
 
