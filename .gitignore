@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Dependency directories
+jspm_packages/
+client/node_modules/
+client/build/
+
+# Coverage directory
+coverage/
+
+# Other files
+.DS_Store
+*.swp
+*.bak
+
+# IDE specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Docker
+docker-compose.override.yml
+docker-compose.debug.yml
+.docker/
+
+# Build
+dist/
+build/
+
+# Test
+coverage/
