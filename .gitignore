@@ -19,6 +19,7 @@ coverage/
 
 # Other files
 .DS_Store
+._*
 *.swp
 *.bak
 
