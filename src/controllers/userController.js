@@ -1,51 +1,41 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
-// Register a new userbut we use JWT
+// Register a new user
 exports.registerUser = async (req, res) => {
   try {
-
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
     const newUser = new User({
       username: req.body.username,
       password: hashedPassword,
       registeredAt: Date.now()
-      
     });
 
     await newUser.save();
     res.status(201).send('User created');
-
   } catch (err) {
     res.status(500).send('Error creating user');
-
   }
 };
 
-// Authenticate user and generate jwt token for that
-exports.loginUser = async (req, res) => {
-
+// Authenticate user using HTTP Basic Auth
+exports.authenticateUser = async (username, password, cb) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({ username: username });
 
     if (!user) {
-      return res.status(400).send('Invalid username or password');
-
+      return cb(null, false); // User not found
     }
-    const validPassword = bcrypt.compareSync(req.body.password, user.password);
+
+    const validPassword = bcrypt.compareSync(password, user.password);
     
     if (!validPassword) {
-      return res.status(400).send('Invalid username or password');
-
+      return cb(null, false); // Invalid password
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-    res.header('Authorization', token).send({ token: token });
-
+    return cb(null, true); // Authentication successful
   } catch (err) {
-    res.status(500).send('Error logging in user');
-    
+    return cb(err);
   }
 };

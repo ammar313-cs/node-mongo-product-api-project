@@ -4,6 +4,9 @@ const { authenticateUser } = require('../controllers/userController');
 
 const app = express();
 
+app.use(bodyParser.json());
+
+
 const myAuthorizer = async (username, password, cb) => {
   const isAuthorized = await authenticateUser(username, password);
   return cb(null, isAuthorized);

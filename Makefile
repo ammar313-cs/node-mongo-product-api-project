@@ -1,9 +1,11 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-# Docker Compose Commands alternate 
 build:
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) build
+
+build-no-cache: 
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) build --no-cache
 
 up:
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d
@@ -18,18 +20,11 @@ restart:
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) down
 	@docker-compose -f $(DOCKER_COMPOSE_FILE) up -d
 
-# Docker Commands alternate 
-proj-build:
-	@docker build -t $(PROJECT_NAME) .
+clean:
+	@find . -name '._*' -exec rm -rf {} \;
 
-proj-run:
-	@docker run -d -p 5000:5000 --name $(PROJECT_NAME) $(PROJECT_NAME)
+delete-package:
+	@rm -rf node_modules package-lock.json
 
-proj-stop:
-	@docker stop $(PROJECT_NAME)
-	@docker rm $(PROJECT_NAME)
-
-# Clean up command 
-proj-clean:
-	@docker-compose -f $(DOCKER_COMPOSE_FILE) down -v --rmi all --remove-orphans
-	@docker system prune -f
+re-npm:
+	@npm install
