@@ -28,3 +28,7 @@ delete-package:
 
 re-npm:
 	@npm install
+
+run-test:
+	@docker-compose exec app npm test
+

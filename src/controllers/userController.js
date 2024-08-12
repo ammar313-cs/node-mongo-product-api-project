@@ -14,28 +14,30 @@ exports.registerUser = async (req, res) => {
 
     await newUser.save();
     res.status(201).send('User created');
-  } catch (err) {
+  } 
+  catch (err) {
     res.status(500).send('Error creating user');
   }
 };
 
-// Authenticate user using HTTP Basic Auth
-exports.authenticateUser = async (username, password, cb) => {
+exports.authenticateUser = async (req, res) => {
   try {
-    const user = await User.findOne({ username: username });
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
 
     if (!user) {
-      return cb(null, false); // User not found
+      return res.status(404).send('User not found');
     }
 
-    const validPassword = bcrypt.compareSync(password, user.password);
-    
+    const validPassword = await bcrypt.compare(password, user.password);
+
     if (!validPassword) {
-      return cb(null, false); // Invalid password
+      return res.status(401).send('Authentication failed');
     }
 
-    return cb(null, true); // Authentication successful
+    return res.status(200).send('Authentication successful');
   } catch (err) {
-    return cb(err);
+    console.error('Internal server error:', err);
+    return res.status(500).send('Internal server error');
   }
 };

@@ -10,10 +10,9 @@ const router = express.Router();
 // Register user route
 router.post('/register', registerUser);
 
-router.post('/login', (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-  });
+// Login user route
+router.post('/login', authenticateUser);
+
   
 // Login user route for userjwtcontrollr.js
 // router.post('/login', loginUser);
